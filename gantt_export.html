@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Gantt Export</title>
+<style>
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans";
+    background: #ffffff;
+    color: #111827;
+  }
+  .wrap {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    height: 100vh;
+  }
+  .board {
+    overflow: auto;
+    border-right: 1px solid #E5E7EB;
+  }
+  .panel {
+    padding: 14px 14px;
+  }
+  .panel h2 {
+    margin: 4px 0 10px;
+    font-size: 16px;
+  }
+  .meta {
+    color: #6B7280;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  .card {
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 12px;
+    background: #fff;
+  }
+  .row {
+    margin: 10px 0;
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    background: #F3F4F6;
+    margin-right: 6px;
+  }
+  .list {
+    margin: 6px 0 0;
+    padding-left: 18px;
+  }
+  a { color: #2563EB; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  svg .gitem { cursor: pointer; }
+  svg .gitem:focus rect, svg .gitem:focus polygon { outline: none; filter: drop-shadow(0 0 0.0rem rgba(0,0,0,0.0)); }
+  .hint {
+    font-size: 12px;
+    color: #6B7280;
+    margin-top: 10px;
+  }
+
+  /* ✅ Attachment cards */
+  .linkcards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .link-card {
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 10px 10px;
+    background: #fff;
+  }
+  .link-title {
+    font-weight: 650;
+    font-size: 13px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .link-desc {
+    font-size: 12px;
+    color: #4B5563;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    margin-bottom: 6px;
+  }
+  .link-url {
+    font-size: 11px;
+    color: #6B7280;
+    word-break: break-all;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="board">
+    <svg id="gantt" width="1874" height="468" viewBox="0 0 1874 468" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="1874" height="56" fill="#F8FAFC" stroke="#E5E7EB"/>
+      <line x1="260.0" y1="56" x2="260.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="260.0" y1="0" x2="260.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="278.0" y1="56" x2="278.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="278.0" y1="0" x2="278.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="296.0" y1="56" x2="296.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="296.0" y1="0" x2="296.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="314.0" y1="56" x2="314.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="314.0" y1="0" x2="314.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="332.0" y1="56" x2="332.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="332.0" y1="0" x2="332.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="350.0" y1="56" x2="350.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="350.0" y1="0" x2="350.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="368.0" y1="56" x2="368.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="368.0" y1="0" x2="368.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="386.0" y1="56" x2="386.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="386.0" y1="0" x2="386.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="404.0" y1="56" x2="404.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="404.0" y1="0" x2="404.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="422.0" y1="56" x2="422.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="422.0" y1="0" x2="422.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="440.0" y1="56" x2="440.0" y2="468" stroke="#CBD5E1" stroke-width="2"/><line x1="440.0" y1="0" x2="440.0" y2="56" stroke="#CBD5E1" stroke-width="2"/><line x1="458.0" y1="56" x2="458.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="458.0" y1="0" x2="458.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="476.0" y1="56" x2="476.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="476.0" y1="0" x2="476.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="494.0" y1="56" x2="494.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="494.0" y1="0" x2="494.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="512.0" y1="56" x2="512.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="512.0" y1="0" x2="512.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="530.0" y1="56" x2="530.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="530.0" y1="0" x2="530.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="548.0" y1="56" x2="548.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="548.0" y1="0" x2="548.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="566.0" y1="56" x2="566.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="566.0" y1="0" x2="566.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="584.0" y1="56" x2="584.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="584.0" y1="0" x2="584.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="602.0" y1="56" x2="602.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="602.0" y1="0" x2="602.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="620.0" y1="56" x2="620.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="620.0" y1="0" x2="620.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="638.0" y1="56" x2="638.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="638.0" y1="0" x2="638.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="656.0" y1="56" x2="656.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="656.0" y1="0" x2="656.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="674.0" y1="56" x2="674.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="674.0" y1="0" x2="674.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="692.0" y1="56" x2="692.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="692.0" y1="0" x2="692.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="710.0" y1="56" x2="710.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="710.0" y1="0" x2="710.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="728.0" y1="56" x2="728.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="728.0" y1="0" x2="728.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="746.0" y1="56" x2="746.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="746.0" y1="0" x2="746.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="764.0" y1="56" x2="764.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="764.0" y1="0" x2="764.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="782.0" y1="56" x2="782.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="782.0" y1="0" x2="782.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="800.0" y1="56" x2="800.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="800.0" y1="0" x2="800.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="818.0" y1="56" x2="818.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="818.0" y1="0" x2="818.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="836.0" y1="56" x2="836.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="836.0" y1="0" x2="836.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="854.0" y1="56" x2="854.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="854.0" y1="0" x2="854.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="872.0" y1="56" x2="872.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="872.0" y1="0" x2="872.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="890.0" y1="56" x2="890.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="890.0" y1="0" x2="890.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="908.0" y1="56" x2="908.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="908.0" y1="0" x2="908.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="926.0" y1="56" x2="926.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="926.0" y1="0" x2="926.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="944.0" y1="56" x2="944.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="944.0" y1="0" x2="944.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="962.0" y1="56" x2="962.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="962.0" y1="0" x2="962.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="980.0" y1="56" x2="980.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="980.0" y1="0" x2="980.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="998.0" y1="56" x2="998.0" y2="468" stroke="#CBD5E1" stroke-width="2"/><line x1="998.0" y1="0" x2="998.0" y2="56" stroke="#CBD5E1" stroke-width="2"/><line x1="1016.0" y1="56" x2="1016.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1016.0" y1="0" x2="1016.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1034.0" y1="56" x2="1034.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1034.0" y1="0" x2="1034.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1052.0" y1="56" x2="1052.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1052.0" y1="0" x2="1052.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1070.0" y1="56" x2="1070.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1070.0" y1="0" x2="1070.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1088.0" y1="56" x2="1088.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1088.0" y1="0" x2="1088.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1106.0" y1="56" x2="1106.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1106.0" y1="0" x2="1106.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1124.0" y1="56" x2="1124.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1124.0" y1="0" x2="1124.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1142.0" y1="56" x2="1142.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1142.0" y1="0" x2="1142.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1160.0" y1="56" x2="1160.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1160.0" y1="0" x2="1160.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1178.0" y1="56" x2="1178.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1178.0" y1="0" x2="1178.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1196.0" y1="56" x2="1196.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1196.0" y1="0" x2="1196.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1214.0" y1="56" x2="1214.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1214.0" y1="0" x2="1214.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1232.0" y1="56" x2="1232.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1232.0" y1="0" x2="1232.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1250.0" y1="56" x2="1250.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1250.0" y1="0" x2="1250.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1268.0" y1="56" x2="1268.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1268.0" y1="0" x2="1268.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1286.0" y1="56" x2="1286.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1286.0" y1="0" x2="1286.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1304.0" y1="56" x2="1304.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1304.0" y1="0" x2="1304.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1322.0" y1="56" x2="1322.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1322.0" y1="0" x2="1322.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1340.0" y1="56" x2="1340.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1340.0" y1="0" x2="1340.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1358.0" y1="56" x2="1358.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1358.0" y1="0" x2="1358.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1376.0" y1="56" x2="1376.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1376.0" y1="0" x2="1376.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1394.0" y1="56" x2="1394.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1394.0" y1="0" x2="1394.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1412.0" y1="56" x2="1412.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1412.0" y1="0" x2="1412.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1430.0" y1="56" x2="1430.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1430.0" y1="0" x2="1430.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1448.0" y1="56" x2="1448.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1448.0" y1="0" x2="1448.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1466.0" y1="56" x2="1466.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1466.0" y1="0" x2="1466.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1484.0" y1="56" x2="1484.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1484.0" y1="0" x2="1484.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1502.0" y1="56" x2="1502.0" y2="468" stroke="#CBD5E1" stroke-width="2"/><line x1="1502.0" y1="0" x2="1502.0" y2="56" stroke="#CBD5E1" stroke-width="2"/><line x1="1520.0" y1="56" x2="1520.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1520.0" y1="0" x2="1520.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1538.0" y1="56" x2="1538.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1538.0" y1="0" x2="1538.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1556.0" y1="56" x2="1556.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1556.0" y1="0" x2="1556.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1574.0" y1="56" x2="1574.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1574.0" y1="0" x2="1574.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1592.0" y1="56" x2="1592.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1592.0" y1="0" x2="1592.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1610.0" y1="56" x2="1610.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1610.0" y1="0" x2="1610.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1628.0" y1="56" x2="1628.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1628.0" y1="0" x2="1628.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1646.0" y1="56" x2="1646.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1646.0" y1="0" x2="1646.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1664.0" y1="56" x2="1664.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1664.0" y1="0" x2="1664.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1682.0" y1="56" x2="1682.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1682.0" y1="0" x2="1682.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1700.0" y1="56" x2="1700.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1700.0" y1="0" x2="1700.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1718.0" y1="56" x2="1718.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1718.0" y1="0" x2="1718.0" y2="56" stroke="#CBD5E1" stroke-width="1"/><line x1="1736.0" y1="56" x2="1736.0" y2="468" stroke="#F1F5F9" stroke-width="1"/><line x1="1736.0" y1="0" x2="1736.0" y2="56" stroke="#CBD5E1" stroke-width="1"/>
+      <line x1="0" y1="100" x2="1874" y2="100" stroke="#EDF2F7" stroke-width="1"/><line x1="0" y1="144" x2="1874" y2="144" stroke="#EDF2F7" stroke-width="1"/><line x1="0" y1="188" x2="1874" y2="188" stroke="#EDF2F7" stroke-width="1"/><line x1="0" y1="232" x2="1874" y2="232" stroke="#EDF2F7" stroke-width="1"/><line x1="0" y1="276" x2="1874" y2="276" stroke="#EDF2F7" stroke-width="1"/><line x1="0" y1="320" x2="1874" y2="320" stroke="#EDF2F7" stroke-width="1"/><line x1="0" y1="364" x2="1874" y2="364" stroke="#EDF2F7" stroke-width="1"/><line x1="0" y1="408" x2="1874" y2="408" stroke="#EDF2F7" stroke-width="1"/>
+      
+            <line x1="926.0" y1="0" x2="926.0" y2="468" stroke="#EF4444" stroke-width="2"/>
+            <polygon points="926.0,54 920.0,40 932.0,40" fill="#EF4444"/>
+            
+      <text x="16" y="88.0" font-size="12" fill="#111827">V2S-1論文作成</text><text x="16" y="132.0" font-size="12" fill="#111827">V2S-1論文修正</text><text x="16" y="176.0" font-size="12" fill="#111827">V2S-1論文投稿</text><text x="16" y="220.0" font-size="12" fill="#111827">定例会議</text><text x="16" y="264.0" font-size="12" fill="#111827">定例会議</text><text x="16" y="308.0" font-size="12" fill="#111827">定例会議</text><text x="16" y="352.0" font-size="12" fill="#111827">定例会議</text><text x="16" y="396.0" font-size="12" fill="#111827">Survey-B1論文作成</text>
+      <text x="264.0" y="42" font-size="11" fill="#64748B">22</text><text x="282.0" y="42" font-size="11" fill="#64748B">23</text><text x="300.0" y="42" font-size="11" fill="#64748B">24</text><text x="318.0" y="42" font-size="11" fill="#64748B">25</text><text x="336.0" y="42" font-size="11" fill="#64748B">26</text><text x="354.0" y="42" font-size="11" fill="#64748B">27</text><text x="372.0" y="42" font-size="11" fill="#64748B">28</text><text x="390.0" y="42" font-size="11" fill="#64748B">29</text><text x="408.0" y="42" font-size="11" fill="#64748B">30</text><text x="426.0" y="42" font-size="11" fill="#64748B">31</text><text x="444.0" y="18" font-size="12" font-weight="700" fill="#334155">2026/01</text><text x="444.0" y="42" font-size="11" fill="#64748B">1</text><text x="462.0" y="42" font-size="11" fill="#64748B">2</text><text x="480.0" y="42" font-size="11" fill="#64748B">3</text><text x="498.0" y="42" font-size="11" fill="#64748B">4</text><text x="516.0" y="42" font-size="11" fill="#64748B">5</text><text x="534.0" y="42" font-size="11" fill="#64748B">6</text><text x="552.0" y="42" font-size="11" fill="#64748B">7</text><text x="570.0" y="42" font-size="11" fill="#64748B">8</text><text x="588.0" y="42" font-size="11" fill="#64748B">9</text><text x="606.0" y="42" font-size="11" fill="#64748B">10</text><text x="624.0" y="42" font-size="11" fill="#64748B">11</text><text x="642.0" y="42" font-size="11" fill="#64748B">12</text><text x="660.0" y="42" font-size="11" fill="#64748B">13</text><text x="678.0" y="42" font-size="11" fill="#64748B">14</text><text x="696.0" y="42" font-size="11" fill="#64748B">15</text><text x="714.0" y="42" font-size="11" fill="#64748B">16</text><text x="732.0" y="42" font-size="11" fill="#64748B">17</text><text x="750.0" y="42" font-size="11" fill="#64748B">18</text><text x="768.0" y="42" font-size="11" fill="#64748B">19</text><text x="786.0" y="42" font-size="11" fill="#64748B">20</text><text x="804.0" y="42" font-size="11" fill="#64748B">21</text><text x="822.0" y="42" font-size="11" fill="#64748B">22</text><text x="840.0" y="42" font-size="11" fill="#64748B">23</text><text x="858.0" y="42" font-size="11" fill="#64748B">24</text><text x="876.0" y="42" font-size="11" fill="#64748B">25</text><text x="894.0" y="42" font-size="11" fill="#64748B">26</text><text x="912.0" y="42" font-size="11" fill="#64748B">27</text><text x="930.0" y="42" font-size="11" fill="#64748B">28</text><text x="948.0" y="42" font-size="11" fill="#64748B">29</text><text x="966.0" y="42" font-size="11" fill="#64748B">30</text><text x="984.0" y="42" font-size="11" fill="#64748B">31</text><text x="1002.0" y="18" font-size="12" font-weight="700" fill="#334155">2026/02</text><text x="1002.0" y="42" font-size="11" fill="#64748B">1</text><text x="1020.0" y="42" font-size="11" fill="#64748B">2</text><text x="1038.0" y="42" font-size="11" fill="#64748B">3</text><text x="1056.0" y="42" font-size="11" fill="#64748B">4</text><text x="1074.0" y="42" font-size="11" fill="#64748B">5</text><text x="1092.0" y="42" font-size="11" fill="#64748B">6</text><text x="1110.0" y="42" font-size="11" fill="#64748B">7</text><text x="1128.0" y="42" font-size="11" fill="#64748B">8</text><text x="1146.0" y="42" font-size="11" fill="#64748B">9</text><text x="1164.0" y="42" font-size="11" fill="#64748B">10</text><text x="1182.0" y="42" font-size="11" fill="#64748B">11</text><text x="1200.0" y="42" font-size="11" fill="#64748B">12</text><text x="1218.0" y="42" font-size="11" fill="#64748B">13</text><text x="1236.0" y="42" font-size="11" fill="#64748B">14</text><text x="1254.0" y="42" font-size="11" fill="#64748B">15</text><text x="1272.0" y="42" font-size="11" fill="#64748B">16</text><text x="1290.0" y="42" font-size="11" fill="#64748B">17</text><text x="1308.0" y="42" font-size="11" fill="#64748B">18</text><text x="1326.0" y="42" font-size="11" fill="#64748B">19</text><text x="1344.0" y="42" font-size="11" fill="#64748B">20</text><text x="1362.0" y="42" font-size="11" fill="#64748B">21</text><text x="1380.0" y="42" font-size="11" fill="#64748B">22</text><text x="1398.0" y="42" font-size="11" fill="#64748B">23</text><text x="1416.0" y="42" font-size="11" fill="#64748B">24</text><text x="1434.0" y="42" font-size="11" fill="#64748B">25</text><text x="1452.0" y="42" font-size="11" fill="#64748B">26</text><text x="1470.0" y="42" font-size="11" fill="#64748B">27</text><text x="1488.0" y="42" font-size="11" fill="#64748B">28</text><text x="1506.0" y="18" font-size="12" font-weight="700" fill="#334155">2026/03</text><text x="1506.0" y="42" font-size="11" fill="#64748B">1</text><text x="1524.0" y="42" font-size="11" fill="#64748B">2</text><text x="1542.0" y="42" font-size="11" fill="#64748B">3</text><text x="1560.0" y="42" font-size="11" fill="#64748B">4</text><text x="1578.0" y="42" font-size="11" fill="#64748B">5</text><text x="1596.0" y="42" font-size="11" fill="#64748B">6</text><text x="1614.0" y="42" font-size="11" fill="#64748B">7</text><text x="1632.0" y="42" font-size="11" fill="#64748B">8</text><text x="1650.0" y="42" font-size="11" fill="#64748B">9</text><text x="1668.0" y="42" font-size="11" fill="#64748B">10</text><text x="1686.0" y="42" font-size="11" fill="#64748B">11</text><text x="1704.0" y="42" font-size="11" fill="#64748B">12</text><text x="1722.0" y="42" font-size="11" fill="#64748B">13</text><text x="1740.0" y="42" font-size="11" fill="#64748B">14</text>
+      
+            <g class="gitem" data-id="25" tabindex="0">
+              <rect x="512.0" y="66.0" width="396.0" height="34" rx="6" ry="6" fill="#1F2937"></rect>
+              <rect x="512.0" y="66.0" width="396.0" height="34" rx="6" ry="6" fill="rgba(0,0,0,0.18)"></rect>
+              <rect x="512.0" y="66.0" width="8" height="34" fill="rgba(255,255,255,0.35)"></rect>
+              <rect x="900.0" y="66.0" width="8" height="34" fill="rgba(255,255,255,0.35)"></rect>
+              <text x="522.0" y="88.0" font-size="12" fill="#FFFFFF">V2S-1論文作成</text>
+            </g>
+            
+            <g class="gitem" data-id="26" tabindex="0">
+              <rect x="890.0" y="110.0" width="108.0" height="34" rx="6" ry="6" fill="#00ff7f"></rect>
+              <rect x="890.0" y="110.0" width="0.0" height="34" rx="6" ry="6" fill="rgba(0,0,0,0.18)"></rect>
+              <rect x="890.0" y="110.0" width="8" height="34" fill="rgba(255,255,255,0.35)"></rect>
+              <rect x="990.0" y="110.0" width="8" height="34" fill="rgba(255,255,255,0.35)"></rect>
+              <text x="900.0" y="132.0" font-size="12" fill="#FFFFFF">V2S-1論文修正</text>
+            </g>
+            
+            <g class="gitem" data-id="27" tabindex="0">
+              <polygon points="998.0,161.0 1008.0,171.0 998.0,181.0 988.0,171.0"
+                       fill="#805AD5" stroke="rgba(0,0,0,0.15)" />
+              <text x="1012.0" y="175.0" font-size="12" fill="#111827">V2S-1論文投稿</text>
+            </g>
+            
+            <g class="gitem" data-id="39" tabindex="0">
+              <polygon points="944.0,205.0 954.0,215.0 944.0,225.0 934.0,215.0"
+                       fill="#000000" stroke="rgba(0,0,0,0.15)" />
+              <text x="958.0" y="219.0" font-size="12" fill="#111827">定例会議</text>
+            </g>
+            
+            <g class="gitem" data-id="37" tabindex="0">
+              <polygon points="692.0,249.0 702.0,259.0 692.0,269.0 682.0,259.0"
+                       fill="#000000" stroke="rgba(0,0,0,0.15)" />
+              <text x="706.0" y="263.0" font-size="12" fill="#111827">定例会議</text>
+            </g>
+            
+            <g class="gitem" data-id="38" tabindex="0">
+              <polygon points="818.0,293.0 828.0,303.0 818.0,313.0 808.0,303.0"
+                       fill="#000000" stroke="rgba(0,0,0,0.15)" />
+              <text x="832.0" y="307.0" font-size="12" fill="#111827">定例会議</text>
+            </g>
+            
+            <g class="gitem" data-id="28" tabindex="0">
+              <polygon points="530.0,337.0 540.0,347.0 530.0,357.0 520.0,347.0"
+                       fill="#000000" stroke="rgba(0,0,0,0.15)" />
+              <text x="544.0" y="351.0" font-size="12" fill="#111827">定例会議</text>
+            </g>
+            
+            <g class="gitem" data-id="34" tabindex="0">
+              <rect x="998.0" y="374.0" width="504.0" height="34" rx="6" ry="6" fill="#00aaff"></rect>
+              <rect x="998.0" y="374.0" width="0.0" height="34" rx="6" ry="6" fill="rgba(0,0,0,0.18)"></rect>
+              <rect x="998.0" y="374.0" width="8" height="34" fill="rgba(255,255,255,0.35)"></rect>
+              <rect x="1494.0" y="374.0" width="8" height="34" fill="rgba(255,255,255,0.35)"></rect>
+              <text x="1008.0" y="396.0" font-size="12" fill="#FFFFFF">Survey-B1論文作成</text>
+            </g>
+            
+    </svg>
+  </div>
+
+  <div class="panel">
+    <h2 id="title">Click an item</h2>
+    <div class="meta" id="meta">Range: 2025-12-22 → 2026-03-14 | Scale: day</div>
+
+    <div class="card" id="card" style="display:none;">
+      <div class="row" id="badges"></div>
+
+      <div class="row">
+        <b>Description</b>
+        <div id="desc" style="white-space:pre-wrap;margin-top:6px;"></div>
+      </div>
+
+      <div class="row">
+        <b>Resources</b>
+        <ul class="list" id="res"></ul>
+      </div>
+
+      <div class="row">
+        <b>Attachments</b>
+        <!-- ✅ 改成 div 容器，渲染卡片 -->
+        <div class="linkcards" id="att"></div>
+      </div>
+    </div>
+
+    <div class="hint">Tip: This is a static export. Share this HTML file or upload to cloud storage and open in browser.</div>
+  </div>
+</div>
+
+<script>
+const DATA = {"range": {"start": "2025-12-22", "end": "2026-03-14", "scale": "day"}, "items": [{"id": 25, "label": "V2S-1論文作成", "type": "task", "start": "2026-01-05", "end": "2026-01-26", "color": "#00ff00", "progress": 100, "done": true, "description": "「V2S-1旧（2025年）論文の一部を切り出したものであり、主として都市避難所における電力需要およびその不確実性を分析し、あわせて都市避難所の電力供給に関する複数の課題を提示することを目的としている。V2S-2（供給側を主題とする研究）では、本研究（V2S-1）を引用する必要がある。」", "resources": [{"name": "張", "role": "関係者"}], "attachments": [{"title": "paper link", "url": "https://drive.google.com/drive/folders/1fIwqn40N0srmwbADqYqjac-XOHQ1tLlE?usp=drive_link", "description": ""}], "style": "", "point_date": "2026-01-05", "row": 0}, {"id": 26, "label": "V2S-1論文修正", "type": "task", "start": "2026-01-26", "end": "2026-01-31", "color": "#00ff7f", "progress": 0, "done": false, "description": "", "resources": [{"name": "後藤、北村", "role": "関係者"}], "attachments": [{"title": "paper link", "url": "https://drive.google.com/drive/folders/1fIwqn40N0srmwbADqYqjac-XOHQ1tLlE?usp=drive_link", "description": ""}], "style": "", "point_date": "2026-01-26", "row": 1}, {"id": 27, "label": "V2S-1論文投稿", "type": "milestone", "start": "2026-02-01", "end": "2026-02-01", "color": "#805AD5", "progress": 0, "done": false, "description": "目標 Sustainable Cities and Society", "resources": [{"name": "後藤、北村、張", "role": "関係者"}], "attachments": [{"title": "SCS", "url": "https://www.sciencedirect.com/journal/sustainable-cities-and-society", "description": ""}], "style": "", "point_date": "2026-02-01", "row": 2}, {"id": 39, "label": "定例会議", "type": "milestone", "start": "2026-01-29", "end": "2026-01-29", "color": "#000000", "progress": 0, "done": false, "description": "", "resources": [{"name": "後藤、北村、張", "role": "関係者"}], "attachments": [{"title": "zoom", "url": "https://zoom.us/j/96143468354?pwd=aE53Vi94MVA2VjJRNFFVM0Q3TU9Gdz09", "description": ""}, {"title": "Slide", "url": "https://1drv.ms/p/c/398b4ba01c5f756f/IQB_fKtyAkjFRI_DtsTv_NifAffHNncpBpq3Fi61JOl9b-0?e=xy4f8r", "description": ""}], "style": "", "point_date": "2026-01-29", "row": 3}, {"id": 37, "label": "定例会議", "type": "milestone", "start": "2026-01-15", "end": "2026-01-15", "color": "#000000", "progress": 0, "done": false, "description": "", "resources": [{"name": "後藤、北村、張", "role": "関係者"}], "attachments": [{"title": "zoom", "url": "https://zoom.us/j/96143468354?pwd=aE53Vi94MVA2VjJRNFFVM0Q3TU9Gdz09", "description": ""}, {"title": "Slide", "url": "https://1drv.ms/p/c/398b4ba01c5f756f/IQB_fKtyAkjFRI_DtsTv_NifAffHNncpBpq3Fi61JOl9b-0?e=xy4f8r", "description": ""}], "style": "", "point_date": "2026-01-15", "row": 4}, {"id": 38, "label": "定例会議", "type": "milestone", "start": "2026-01-22", "end": "2026-01-22", "color": "#000000", "progress": 0, "done": false, "description": "", "resources": [{"name": "後藤、北村、張", "role": "関係者"}], "attachments": [{"title": "zoom", "url": "https://zoom.us/j/96143468354?pwd=aE53Vi94MVA2VjJRNFFVM0Q3TU9Gdz09", "description": ""}, {"title": "Slide", "url": "https://1drv.ms/p/c/398b4ba01c5f756f/IQB_fKtyAkjFRI_DtsTv_NifAffHNncpBpq3Fi61JOl9b-0?e=xy4f8r", "description": ""}], "style": "", "point_date": "2026-01-22", "row": 5}, {"id": 28, "label": "定例会議", "type": "milestone", "start": "2026-01-06", "end": "2026-01-06", "color": "#000000", "progress": 0, "done": false, "description": "", "resources": [{"name": "後藤、北村、張", "role": "関係者"}], "attachments": [{"title": "zoom", "url": "https://zoom.us/j/96143468354?pwd=aE53Vi94MVA2VjJRNFFVM0Q3TU9Gdz09", "description": ""}, {"title": "Slide", "url": "https://1drv.ms/p/c/398b4ba01c5f756f/IQB_fKtyAkjFRI_DtsTv_NifAffHNncpBpq3Fi61JOl9b-0?e=xy4f8r", "description": ""}], "style": "", "point_date": "2026-01-06", "row": 6}, {"id": 34, "label": "Survey-B1論文作成", "type": "task", "start": "2026-02-01", "end": "2026-02-28", "color": "#00aaff", "progress": 0, "done": false, "description": "「2025年のReject後に残された研究課題であり、主としてアンケート調査における利用者の主観的回答の分析（記述分析）を行うものである。Survey A1 の論文を引用しつつ、内容を再整理・改稿のうえ、Transport Policy への再投稿を予定している。」", "resources": [{"name": "張", "role": "関係者"}], "attachments": [{"title": "paper link", "url": "https://drive.google.com/drive/folders/1Q9KHyedmm15iic1UudU6UkKCYpwvhQsx?usp=drive_link", "description": ""}], "style": "", "point_date": "2026-02-01", "row": 7}]};
+
+function el(id) { return document.getElementById(id); }
+
+function domainOf(url) {
+  try {
+    return new URL(url).host;
+  } catch (e) {
+    const u = String(url || "");
+    const t = u.split("//").pop();
+    return t.split("/")[0] || u;
+  }
+}
+
+function showItem(item) {
+  el("title").textContent = item.label;
+  el("card").style.display = "block";
+
+  const badges = [];
+  badges.push(`<span class="tag">${item.type}</span>`);
+  badges.push(`<span class="tag">${item.start} → ${item.end}</span>`);
+  if (item.type === "task") {
+    badges.push(`<span class="tag">progress ${item.progress}%</span>`);
+    badges.push(`<span class="tag">done=${item.done}</span>`);
+  }
+  el("badges").innerHTML = badges.join(" ");
+
+  // ✅ description 本来就有，JS 修好后就能显示
+  el("desc").textContent = item.description || "(no description)";
+
+  const res = el("res");
+  res.innerHTML = "";
+  (item.resources || []).forEach(r => {
+    const li = document.createElement("li");
+    li.textContent = `${r.name}${r.role ? " | " + r.role : ""}`;
+    res.appendChild(li);
+  });
+  if ((item.resources || []).length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "(none)";
+    res.appendChild(li);
+  }
+
+  // ✅ Attachments：卡片渲染 + 可点击
+  const att = el("att");
+  att.innerHTML = "";
+  (item.attachments || []).forEach(a => {
+    const card = document.createElement("div");
+    card.className = "link-card";
+
+    const title = document.createElement("div");
+    title.className = "link-title";
+
+    const link = document.createElement("a");
+    link.href = a.url;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = (a.title && a.title.length) ? a.title : a.url;
+    title.appendChild(link);
+
+    const desc = document.createElement("div");
+    desc.className = "link-desc";
+    desc.textContent = (a.description && a.description.length) ? a.description : "";
+
+    const url = document.createElement("div");
+    url.className = "link-url";
+    url.textContent = `${domainOf(a.url)}  —  ${a.url}`;
+
+    card.appendChild(title);
+    if (desc.textContent.trim().length) card.appendChild(desc);
+    card.appendChild(url);
+
+    att.appendChild(card);
+  });
+  if ((item.attachments || []).length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "link-url";
+    empty.textContent = "(none)";
+    att.appendChild(empty);
+  }
+}  // ✅✅✅ 关键：补上 showItem 的结束大括号，否则整个脚本会挂
+
+const itemsById = new Map(DATA.items.map(it => [String(it.id), it]));
+
+document.querySelectorAll("#gantt .gitem").forEach(node => {
+  node.addEventListener("click", () => {
+    const id = node.getAttribute("data-id");
+    const item = itemsById.get(String(id));
+    if (item) showItem(item);
+  });
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    el("card").style.display = "none";
+    el("title").textContent = "Click an item";
+  }
+});
+</script>
+</body>
+</html>
